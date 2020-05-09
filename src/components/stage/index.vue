@@ -2,20 +2,22 @@
   <div class="stage">
       <canvas class="canvas" ref="canvas"></canvas>
       <File ref="file"/>
+      <Setting ref="setting"/>
   </div>
 </template>
 
 <script>
 
-import game from '../../js/game'
+import game from '../../js/App.ts'
 import File from '../file/index.vue'
+import Setting from '../setting/index.vue'
 export default {
   name: 'stage',
   props: {
     msg: String
   },
   components: {
-    File
+    File, Setting
   },
   mounted(){
     console.log(this.$refs.canvas);

@@ -1,5 +1,9 @@
 import Phaser from 'phaser'
-import listener from "./listener";
+import listener from "./listener.js";
+
+import Tooler from './tooler.ts'
+var tooler = new Tooler();
+tooler.test();
 
 function init(canvas){
     
@@ -32,8 +36,11 @@ function init(canvas){
         setTimeout(() => {
             scene.add.image(100, 400, 'bg');
         }, 3000);
-        
     })
+
+    listener.on("attr", (attr, num) => {
+        console.log(attr, num);
+    });
 
     function preload ()
     {
@@ -75,10 +82,13 @@ function init(canvas){
         obj.setInteractive()
         scene.input.setDraggable(obj);
         scene.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-            console.log(pointer)
-            gameObject.x = dragX
-            gameObject.y = dragY
+            // console.log(pointer)
+            gameObject.x = dragX;
+            gameObject.y = dragY;
+            listener.emit("view", gameObject);
         })
+
+        // scene.input.on('click')
     }
 
     // function create0 ()

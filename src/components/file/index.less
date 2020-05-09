@@ -1,8 +1,94 @@
-.file{
+.file-view{
     position: fixed;
     left: 0;
     top: 0;
-    width: 100px;
-    height: 40px;
+    width: 200px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #ffffff;
+    box-shadow: 4px 4px 4px #999999;
     z-index: 1;
+    .input{
+        display: none;
+    }
+    .btn{
+        height: 40px;
+        line-height: 40px;
+        background: #f0f0f0;
+        text-align: center;
+        cursor: pointer;
+    }
+    .list{
+        padding: 20px;
+        .item{
+            padding: 10px 0;
+            border-bottom: solid 1px #f0f0f0;
+            .img{
+                width: 100%;
+                height: 100px;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+                background-color: #f0f0f0;
+            }
+            .name{
+                margin-top: 8px;
+                color: #999999;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+    }
+}
+
+
+@media screen and (min-width: 768PX){
+.file-view{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 200PX;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #ffffff;
+    box-shadow: 4PX 4PX 4PX #999999;
+    z-index: 1;
+    .input{
+        display: none;
+    }
+    .btn{
+        height: 40PX;
+        line-height: 40PX;
+        background: #f0f0f0;
+        text-align: center;
+        cursor: pointer;
+    }
+    .list{
+        padding: 20PX;
+        .item{
+            padding: 10PX 0;
+            border-bottom: solid 1PX #f0f0f0;
+            .img{
+                width: 100%;
+                height: 100PX;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+                background-color: #f0f0f0;
+            }
+            .name{
+                margin-top: 8PX;
+                color: #999999;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+    }
+}
+
+
 }

@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
+import store from './store'
 
 Vue.config.productionTip = false
 
 new Vue({
+  store,
   render: h => h(App),
 }).$mount('#app');
 
@@ -21,7 +23,6 @@ new Vue({
 	var recalc = function () {    
 		var clientWidth = window.innerWidth * scale;
 		docEl.style.fontSize = 100 * (clientWidth * dpr / 750) + 'px';
-		// metaEl.setAttribute('content', 'width=' + clientWidth * dpr + ',initial-scale=' + scale + ',maximum-scale=' + scale + ', minimum-scale=' + scale + ',user-scalable=no'); 
 	};    
 	if (!doc.addEventListener) return;    
 	win.addEventListener(resizeEvt, recalc, false);    
