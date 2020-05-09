@@ -22,8 +22,8 @@ export default {
   mounted(){
     console.log(this.$refs.canvas);
     var canvas = this.$refs.canvas;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // canvas.width = 750;
+    // canvas.height = window.innerHeight - 40;
     game.init(canvas);
   },
 }
