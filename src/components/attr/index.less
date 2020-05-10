@@ -1,37 +1,99 @@
 .attr-view{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    margin-bottom: 10px;
     .label{
         width: 60px;
         margin-right: 8px;
     }
-    .value{
+    .text{
         flex: 1;
-        padding: 8px;
+        padding: 2px 8px;
         width: 0;
         box-sizing: border-box;
     }
+    .checkbox{
+        width: 24px;
+        height: 24px;
+        border: solid 1px #666666;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.selected::after{
+            content: "";
+            display: block;
+            width: 10px;
+            height: 10px;
+            background: #666666;
+        }
+    }
+    .color{
+        width: 24px;
+        height: 24px;
+    }
+    .space{
+        flex: 1;
+    }
 }
+
+
+
+
+
+
+
+
 
 
 
 @media screen and (min-width: 768PX){
 .attr-view{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    margin-bottom: 10PX;
     .label{
         width: 60PX;
         margin-right: 8PX;
     }
-    .value{
+    .text{
         flex: 1;
-        padding: 8PX;
+        padding: 2PX 8PX;
         width: 0;
         box-sizing: border-box;
     }
+    .checkbox{
+        width: 24PX;
+        height: 24PX;
+        border: solid 1PX #666666;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.selected::after{
+            content: "";
+            display: block;
+            width: 10PX;
+            height: 10PX;
+            background: #666666;
+        }
+    }
+    .color{
+        width: 24PX;
+        height: 24PX;
+    }
+    .space{
+        flex: 1;
+    }
 }
+
+
+
+
+
+
+
+
 
 
 

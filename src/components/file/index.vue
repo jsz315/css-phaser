@@ -1,6 +1,8 @@
 <template>
     <div class="file-view">
-        <input class="input" type="file" ref="file" @change="onchange" multiple/>
+        <Drag @drag="ondrag"/>
+        <div class="btn" @click="addBlock">添加区块</div>
+        <input class="input" type="file" ref="file" @change="onChange" multiple/>
         <div class="btn" @click="addImage">导入图片</div>
         <div class="list">
             <div class="item" v-for="(item, index) in assets" v-bind:key="index">
@@ -13,13 +15,20 @@
 <script>
 import fileTooler from "../../js/fileTooler";
 import listener from "../../js/listener";
+import Drag from '../drag/index.vue'
 import {mapState, mapMutations} from 'vuex'
 export default {
+    components: {
+        Drag
+    },
     methods: {
         ...mapMutations(['changeVersion', 'changeAssets']),
-        async onchange(e) {
-            console.log(e.target.files[0]);
+        onChange(e) {
+            console.log(e.target.files);
             var files = e.target.files;
+            this.addFiles(files);
+        },
+        async addFiles(files){
             for(var i = 0; i < files.length; i++){
                 var file = files[i];
                 if(file){
@@ -34,7 +43,14 @@ export default {
             this.$refs.file.click();
         },
         useImage(item){
-            listener.emit('file', item.img);
+            listener.emit('file', item);
+        },
+        addBlock(){
+            listener.emit('block');
+        },
+        ondrag(files){
+            console.log(files);
+            this.addFiles(files);
         }
     },
     mounted(){

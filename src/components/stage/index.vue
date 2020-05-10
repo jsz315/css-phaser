@@ -20,11 +20,11 @@ export default {
     File, Setting
   },
   mounted(){
-    console.log(this.$refs.canvas);
     var canvas = this.$refs.canvas;
-    // canvas.width = 750;
-    // canvas.height = window.innerHeight - 40;
     game.init(canvas);
+  },
+  methods: {
+    
   },
 }
 </script>

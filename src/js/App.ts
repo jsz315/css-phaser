@@ -1,14 +1,14 @@
 import * as Phaser from 'phaser'
-import {StartScene} from './StartScene.ts'
+import {StartScene} from './StartScene'
 
 function init(canvas:HTMLCanvasElement){
     const config:Phaser.Types.Core.GameConfig = {
         type: Phaser.CANVAS,
         scene: [StartScene],
         canvas: canvas,
-        backgroundColor: 0xf0f0f0,
+        backgroundColor: 0x000000,
         width: 750,
-        height: 600
+        height: window.innerHeight * 0.84
     }
     new Phaser.Game(config);
 }
