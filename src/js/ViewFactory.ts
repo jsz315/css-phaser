@@ -4,6 +4,8 @@ export class ViewFactory{
     static normal(obj:Phaser.GameObjects.Image | Phaser.GameObjects.Polygon | Phaser.GameObjects.Text){
         obj.setOrigin(0, 0);
         obj.setData("ratio", 1);
+        // obj.setData("id", "id_" + Date.now());
+        obj.name = "id_" + Date.now();
     }
 
     static makeImage(scene:Phaser.Scene, key:string):Phaser.GameObjects.Image{

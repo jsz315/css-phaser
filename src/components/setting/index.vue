@@ -11,12 +11,14 @@
             <Attr label="颜色" attr="color" v-if="display.color" :num="view.color" type="color" @change="onViewChange" />
             <Attr label="文本" attr="word" v-if="display.word" :num="view.word" type="text" @change="onViewChange" />
             <Attr label="字号" attr="size" v-if="display.size" :num="view.size" @change="onViewChange" />
+            <div class="btn" @click="onDelete">删除物体</div>
         </div>
         <div class="title">场景属性</div>
         <div class="attrs">
             <Attr label="宽度" attr="width" :num="stage.width"  @change="onStageChange" />
             <Attr label="高度" attr="height" :num="stage.height"  @change="onStageChange" />
             <Attr label="颜色" attr="color" :num="stage.color" type="color"  @change="onStageChange" />
+            <div class="btn" @click="onPulish">导出内容</div>
         </div>
     </div>
 </template>
@@ -30,6 +32,7 @@ export default {
     data() {
         return {
             view: {
+                id: "",
                 width: 0,
                 height: 0,
                 x: 0,
@@ -105,6 +108,12 @@ export default {
                     break;
             }
             listener.emit("attr_stage", attr, num);
+        },
+        onDelete(){
+          listener.emit("delete", this.view.id);
+        },
+        onPulish(){
+          listener.emit("publish");
         }
     },
     mounted(){
@@ -115,6 +124,7 @@ export default {
             this.view.y = view.y;
             this.view.enabled = Number(view.input.enabled);
             this.view.ratio = view.getData('ratio');
+            this.view.id = view.name;
 
             var color = view.getData('color');
             if(color != undefined){
@@ -145,7 +155,7 @@ export default {
               this.view.size = size;
               this.display.size = false;
             }
-        })
+        });
     },
     computed:{
         ...mapState(['version', 'assets']),

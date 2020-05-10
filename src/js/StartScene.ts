@@ -198,7 +198,17 @@ export class StartScene extends Phaser.Scene {
       this.dragObj(text);
       this.container.add(text);
     })
-    
+
+    listener.on("delete", (id:string)=>{
+      var view = this.container.getByName(id);
+      this.container.remove(view);
+      view.destroy(true);
+    })
+
+    listener.on("publish", ()=>{
+      console.log(this.container.list);
+      listener.emit("list", this.container.list);
+    })
   }
 
   addCamera(){
@@ -210,14 +220,16 @@ export class StartScene extends Phaser.Scene {
 
   resetHole(){
     var {x, y, scale} = this.container;
+    var {width, height} = this.game.config;
+
     this.hole.clear();
     this.hole.fillStyle(0x020202, 0.8)
     this.hole.beginPath();
 
     this.hole.moveTo(0, 0);
-    this.hole.lineTo(0, this.stageHeight);
-    this.hole.lineTo(this.stageWidth, this.stageHeight);
-    this.hole.lineTo(this.stageWidth, 0);
+    this.hole.lineTo(0, Number(height));
+    this.hole.lineTo(Number(width), Number(height));
+    this.hole.lineTo(Number(width), 0);
     this.hole.closePath();
 
     this.hole.moveTo(x, y);
