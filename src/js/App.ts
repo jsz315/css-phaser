@@ -6,7 +6,7 @@ function init(canvas:HTMLCanvasElement){
         type: Phaser.CANVAS,
         scene: [StartScene],
         canvas: canvas,
-        backgroundColor: 0x000000,
+        backgroundColor: 0xffffff,
         width: 750,
         height: window.innerHeight * 0.84
     }

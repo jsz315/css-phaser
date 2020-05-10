@@ -13,6 +13,7 @@ export class StartScene extends Phaser.Scene {
   curView: any;
   sx:number = 0;
   sy:number = 0;
+  hole: Phaser.GameObjects.Graphics;
 
   constructor() {
     super({
@@ -53,6 +54,7 @@ export class StartScene extends Phaser.Scene {
 
   create(): void {
     this.container = this.add.container(0, 0);
+    this.hole = this.add.graphics();
 
     this.stageWidth = Number(this.game.config.width);
     this.stageHeight = Number(this.game.config.height);
@@ -80,17 +82,30 @@ export class StartScene extends Phaser.Scene {
       this.sy = pointer.y;
     });
     this.container.addAt(this.stage, 0);
-    this.container.scale = 1;
+    this.container.width = this.stageWidth;
+    this.container.height = this.stageHeight;
+    // this.container.scale = 1;
+
+    this.resetHole();
   }
 
   addEvent(){
     window.addEventListener("mousewheel", (e:any) => {
+      var oldX = this.container.scale * this.stageWidth;
+      var oldY = this.container.scale * this.stageHeight;
       if(e.deltaY > 0){
         this.container.scale *= 0.9;
       }
       else{
         this.container.scale *= 1.1;
       }
+      var newX = this.container.scale * this.stageWidth;
+      var newY = this.container.scale * this.stageHeight;
+
+      this.container.x -= (newX - oldX) / 2;
+      this.container.y -= (newY - oldY) / 2;
+
+      console.log(this.container, "width");
     })
 
     listener.on("attr_view", (attr:string, num:any)=>{
@@ -128,7 +143,20 @@ export class StartScene extends Phaser.Scene {
       }
       else if(attr == 'color'){
         this.curView.setData(attr, num);
-        this.curView.fillColor = Tooler.toColorNumber(num);
+        if(this.curView.text){
+          this.curView.setStyle({color: num});
+        }
+        else{
+          this.curView.fillColor = Tooler.toColorNumber(num);
+        }
+      }
+      else if(attr == 'word'){
+        this.curView.setData(attr, num);
+        this.curView.text = num;
+      }
+      else if(attr == 'size'){
+        this.curView.setData(attr, num);
+        this.curView.setStyle({fontSize: num + "px"});
       }
     })
 
@@ -164,6 +192,12 @@ export class StartScene extends Phaser.Scene {
       this.dragObj(rect);
       this.container.add(rect);
     })
+
+    listener.on("text", ()=>{
+      var text = ViewFactory.makeText(this, '文本');
+      this.dragObj(text);
+      this.container.add(text);
+    })
     
   }
 
@@ -174,29 +208,31 @@ export class StartScene extends Phaser.Scene {
     this.cameras.main.pan(100, 200, 3000)
   }
 
-  addGrid(){
-    var graphics = this.add.graphics();
-    graphics.lineStyle(2, 0x00ff00, 1);
+  resetHole(){
+    var {x, y, scale} = this.container;
+    this.hole.clear();
+    this.hole.fillStyle(0x020202, 0.8)
+    this.hole.beginPath();
 
-    graphics.beginPath();
+    this.hole.moveTo(0, 0);
+    this.hole.lineTo(0, this.stageHeight);
+    this.hole.lineTo(this.stageWidth, this.stageHeight);
+    this.hole.lineTo(this.stageWidth, 0);
+    this.hole.closePath();
 
-    graphics.moveTo(200, 0);
-    graphics.lineTo(200, 600);
+    this.hole.moveTo(x, y);
+    this.hole.lineTo(x + this.stageWidth * scale, y);
+    this.hole.lineTo(x + this.stageWidth * scale, y + this.stageHeight * scale);
+    this.hole.lineTo(x, y + this.stageHeight * scale);
+    this.hole.closePath();
 
-    graphics.moveTo(400, 0);
-    graphics.lineTo(400, 600);
-
-    graphics.moveTo(600, 0);
-    graphics.lineTo(600, 600);
-
-    graphics.strokePath();
-
-    graphics.closePath();
+    this.hole.fill();
   }
 
   update(time: any): void {
     // var {scale} = this.container;
     // this.container.x = this.stageWidth / 2 - this.stageWidth * scale / 2;
+    this.resetHole();
   }
 
   dragObj(obj: any): void {

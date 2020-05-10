@@ -8,9 +8,9 @@
             <Attr label="坐标y" attr="y" :num="view.y"  @change="onViewChange" />
             <Attr label="可拖动" attr="enabled" :num="view.enabled" type="checkbox" @change="onViewChange" />
             <Attr label="等比" attr="ratio" :num="view.ratio" type="checkbox" @change="onViewChange" />
-            <Attr label="颜色" attr="color" :num="view.color" type="color" @change="onViewChange" />
-            <Attr label="文本" attr="word" :num="view.word" type="text" @change="onViewChange" />
-            <Attr label="字号" attr="size" :num="view.size" @change="onViewChange" />
+            <Attr label="颜色" attr="color" v-if="display.color" :num="view.color" type="color" @change="onViewChange" />
+            <Attr label="文本" attr="word" v-if="display.word" :num="view.word" type="text" @change="onViewChange" />
+            <Attr label="字号" attr="size" v-if="display.size" :num="view.size" @change="onViewChange" />
         </div>
         <div class="title">场景属性</div>
         <div class="attrs">
@@ -39,6 +39,11 @@ export default {
                 color: "#ff0000",
                 word: "",
                 size: 24
+            },
+            display: {
+              color: false,
+              word: false,
+              size: false
             },
             stage: {
                 width: 750,
@@ -73,6 +78,15 @@ export default {
                 case 'ratio':
                     this.view.ratio = num;
                     break;
+                case 'color':
+                    this.view.color = num;
+                    break;
+                case 'size':
+                    this.view.size = num;
+                    break;
+                case 'word':
+                    this.view.word = num;
+                    break;
 
             }
             listener.emit("attr_view", attr, num);
@@ -101,9 +115,35 @@ export default {
             this.view.y = view.y;
             this.view.enabled = Number(view.input.enabled);
             this.view.ratio = view.getData('ratio');
+
             var color = view.getData('color');
-            if(color){
+            if(color != undefined){
                 this.view.color = Tooler.toColorString(color);
+                this.display.color = true;
+            }
+            else{
+              this.view.color = color;
+              this.display.color = false;
+            }
+
+            var word = view.getData('word');
+            if(word != undefined){
+                this.view.word = word;
+                this.display.word = true;
+            }
+            else{
+              this.view.word = word;
+              this.display.word = false;
+            }
+
+            var size = view.getData('size');
+            if(size != undefined){
+                this.view.size = size;
+                this.display.size = true;
+            }
+            else{
+              this.view.size = size;
+              this.display.size = false;
             }
         })
     },

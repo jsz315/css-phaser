@@ -2,6 +2,7 @@
     <div class="file-view">
         <Drag @drag="ondrag"/>
         <div class="btn" @click="addBlock">添加区块</div>
+        <div class="btn" @click="addText">添加文本</div>
         <input class="input" type="file" ref="file" @change="onChange" multiple/>
         <div class="btn" @click="addImage">导入图片</div>
         <div class="list">
@@ -47,6 +48,9 @@ export default {
         },
         addBlock(){
             listener.emit('block');
+        },
+        addText(){
+          listener.emit('text');
         },
         ondrag(files){
             console.log(files);
