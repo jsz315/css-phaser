@@ -102,10 +102,21 @@ export class StartScene extends Phaser.Scene {
       var newX = this.container.scale * this.stageWidth;
       var newY = this.container.scale * this.stageHeight;
 
-      this.container.x -= (newX - oldX) / 2;
-      this.container.y -= (newY - oldY) / 2;
+      // this.container.x -= (newX - oldX) / 2;
+      // this.container.y -= (newY - oldY) / 2;
 
-      console.log(this.container, "width");
+      var sx = e.clientX - this.game.canvas.offsetLeft;
+      var sy = e.clientY - this.game.canvas.offsetTop;
+      var center = this.worldToContainer(sx, sy);
+
+      var offsetX = center.x / this.stageWidth;
+      var offsetY = center.y / this.stageHeight;
+      console.log(offsetX, offsetY);
+      this.container.x -= (newX - oldX) * offsetX;
+      this.container.y -= (newY - oldY) * offsetY;
+
+
+      console.log(e.clientX, e.clientY, this, "mousewheel");
     })
 
     listener.on("attr_view", (attr:string, num:any)=>{
@@ -209,6 +220,13 @@ export class StartScene extends Phaser.Scene {
       console.log(this.container.list);
       listener.emit("list", this.container.list);
     })
+  }
+
+  worldToContainer(x:number, y:number){
+    return {
+      x: (x - this.container.x) / this.container.scale,
+      y: (y - this.container.y) / this.container.scale
+    }
   }
 
   addCamera(){
