@@ -14,6 +14,8 @@ export class StartScene extends Phaser.Scene {
   sx:number = 0;
   sy:number = 0;
   hole: Phaser.GameObjects.Graphics;
+  center:any = {};
+  offset:any = {};
 
   constructor() {
     super({
@@ -104,19 +106,26 @@ export class StartScene extends Phaser.Scene {
 
       // this.container.x -= (newX - oldX) / 2;
       // this.container.y -= (newY - oldY) / 2;
-
-      var sx = e.clientX - this.game.canvas.offsetLeft;
-      var sy = e.clientY - this.game.canvas.offsetTop;
-      var center = this.worldToContainer(sx, sy);
-
-      var offsetX = center.x / this.stageWidth;
-      var offsetY = center.y / this.stageHeight;
-      console.log(offsetX, offsetY);
-      this.container.x -= (newX - oldX) * offsetX;
-      this.container.y -= (newY - oldY) * offsetY;
-
-
       console.log(e.clientX, e.clientY, this, "mousewheel");
+
+      if(e.clientX == this.center.x && e.clientY == this.center.y){
+        this.container.x -= (newX - oldX) * this.offset.x;
+        this.container.y -= (newY - oldY) * this.offset.y;
+      }
+      else{
+        var sx = e.clientX - this.game.canvas.offsetLeft;
+        var sy = e.clientY - this.game.canvas.offsetTop;
+        var center = this.worldToContainer(sx, sy);
+  
+        var offsetX = center.x / this.stageWidth;
+        var offsetY = center.y / this.stageHeight;
+        console.log(offsetX, offsetY);
+        this.container.x -= (newX - oldX) * offsetX;
+        this.container.y -= (newY - oldY) * offsetY;
+        this.offset = {x: offsetX, y: offsetY};
+      }
+
+      this.center = {x: e.clientX, y: e.clientY};
     })
 
     listener.on("attr_view", (attr:string, num:any)=>{
