@@ -1,4 +1,9 @@
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+const webpack = require('webpack')
+const path = require('path')
+
 module.exports = {
+  publicPath: '',
   // css: {
   //   loaderOptions: {
   //     css: {},
@@ -35,6 +40,21 @@ module.exports = {
           exclude: /node_modules/
         }
       ]
-    }
+    },
+    plugins: [
+      new webpack.DllReferencePlugin({
+          context: __dirname,
+          manifest: path.join(__dirname, './public/dll/phaser.manifest.json')
+      }),
+      new AddAssetHtmlPlugin([
+          {
+              filepath: path.resolve(__dirname, './public/dll/*.js'),
+              // 文件输出目录
+              outputPath: 'dll',
+              // 脚本或链接标记的公共路径
+              publicPath: 'dll'
+          }
+      ])
+    ]
   }
 }
